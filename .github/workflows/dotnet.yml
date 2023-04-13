@@ -45,9 +45,9 @@ jobs:
       - name: SSH into Compute Engine and run startup script
         uses: appleboy/ssh-action@v0.2.2
         with:
-          host: YOUR_INSTANCE_IP
-          username: YOUR_USERNAME
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: '34.16.133.215'
+          username: dohunglamk54
+          key: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAHriY00Q8+/oNITH1NEP9OHM5dclOoQ5nYYhgejGC7GXykj8ZW8Ih0ZNmzL6pTjTXVBGVmbCSiWi0FYv4mdpkSUmGlTZeU4G4Fwqm3UXaqcoFbPwJAOBfo9EiJv2es7bBSCxqWpZWYOgY/RrOg10uW42bdq0RJmmUak/7RcePEo4Bghy0gHju/g6v99CQPN6zLoA7wt2uVEd3XISEH7Qc1wqmdMSj1bK7uO0zcf3yZ5EEtjHSGUPJY73wRRKmD56LFt69m5B666HYSIwUnCGSThL0Mk2YY9x6hJXNqq+DX8XeCGfc+WA59gj/SoaWAp168xdMipfQVY+mTpDLNkwe3E= google-ssh {"userName":"dohunglamk54@gmail.com","expireOn":"2023-04-13T07:39:17+0000"}'
           script: |
             cd /home/YOUR_USERNAME/publish
             chmod +x startup.sh
