@@ -1,0 +1,54 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: YOUR_PROJECT_ID
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1'
+
+      - name: Build and Publish .NET project
+        run: |
+          dotnet restore
+          dotnet publish -c Release -o publish
+
+      - name: Transfer files to Compute Engine
+        uses: google-github-actions/upload-to-compute-engine@v0.2
+        with:
+          instance_name: YOUR_INSTANCE_NAME
+          zone: YOUR_INSTANCE_ZONE
+          source: ./publish
+          destination: /home/YOUR_USERNAME/publish
+
+      - name: SSH into Compute Engine and run startup script
+        uses: appleboy/ssh-action@v0.2.2
+        with:
+          host: YOUR_INSTANCE_IP
+          username: YOUR_USERNAME
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/YOUR_USERNAME/publish
+            chmod +x startup.sh
+            ./startup.sh
