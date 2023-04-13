@@ -43,7 +43,7 @@ jobs:
           destination: /home/YOUR_USERNAME/publish
 
       - name: SSH into Compute Engine and run startup script
-        uses: appleboy/ssh-action@v0.2.2
+        uses: google-github-actions/upload-to-compute-engine@v0.5.0
         with:
           host: '34.16.133.215'
           username: dohunglamk54
